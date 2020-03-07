@@ -23,6 +23,7 @@
     ],
     "space-before-function-paren": "off",
     "implicit-arrow-linebreak": "off",
-    "operator-linebreak": "off"
+    "operator-linebreak": "off",
+    "indent": 0
   }
 }

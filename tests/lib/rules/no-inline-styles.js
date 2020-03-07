@@ -103,7 +103,7 @@ const tests = {
                 '});\n' +
                 '\n' +
                 'const styles = StyleSheet.create({\n' +
-                "  textStyle:{backgroundColor: '#FFFFFF', opacity: 0.5},\n" +
+                "  textStyle:{ backgroundColor: '#FFFFFF', opacity: 0.5 },\n" +
                 '});',
             },
           ],
