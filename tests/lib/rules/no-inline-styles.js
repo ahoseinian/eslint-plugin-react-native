@@ -20,9 +20,7 @@ require('babel-eslint');
 
 const ruleTester = new RuleTester();
 
-
 const tests = {
-
   valid: [
     {
       code: `
@@ -81,18 +79,36 @@ const tests = {
   ],
   invalid: [
     {
-      code: `
-        const Hello = React.createClass({
-          render: function() {
-            return <Text style={{backgroundColor: '#FFFFFF', opacity: 0.5}}>
-              Hello {this.props.name}
-             </Text>;
-          }
-        });
-      `,
-      errors: [{
-        message: 'Inline style: { backgroundColor: \'#FFFFFF\', opacity: 0.5 }',
-      }],
+      code:
+        'const Hello = React.createClass({\n' +
+        '  render: function() {\n' +
+        "    return <Text style={{backgroundColor: '#FFFFFF', opacity: 0.5}}>\n" +
+        '      Hello {this.props.name}\n' +
+        '    </Text>;\n' +
+        '  }\n' +
+        '});',
+      errors: [
+        {
+          message: "Inline style: { backgroundColor: '#FFFFFF', opacity: 0.5 }",
+          suggestions: [
+            {
+              desc: 'fix this badboy',
+              output:
+                'const Hello = React.createClass({\n' +
+                '  render: function() {\n' +
+                '    return <Text style={styles.textStyle}>\n' +
+                '      Hello {this.props.name}\n' +
+                '    </Text>;\n' +
+                '  }\n' +
+                '});\n' +
+                '\n' +
+                'const styles = StyleSheet.create({\n' +
+                "  textStyle:{backgroundColor: '#FFFFFF', opacity: 0.5},\n" +
+                '});',
+            },
+          ],
+        },
+      ],
     },
     {
       code: `
@@ -104,9 +120,11 @@ const tests = {
           }
         });
       `,
-      errors: [{
-        message: 'Inline style: { backgroundColor: \'#FFFFFF\' }',
-      }],
+      errors: [
+        {
+          message: "Inline style: { backgroundColor: '#FFFFFF' }",
+        },
+      ],
     },
     {
       code: `
@@ -118,9 +136,11 @@ const tests = {
           }
         });
       `,
-      errors: [{
-        message: 'Inline style: { height: 12 }',
-      }],
+      errors: [
+        {
+          message: 'Inline style: { height: 12 }',
+        },
+      ],
     },
     {
       code: `
@@ -132,9 +152,11 @@ const tests = {
           }
         });
       `,
-      errors: [{
-        message: 'Inline style: { marginLeft: -7, height: 12 }',
-      }],
+      errors: [
+        {
+          message: 'Inline style: { marginLeft: -7, height: 12 }',
+        },
+      ],
     },
     {
       code: `
@@ -146,9 +168,11 @@ const tests = {
           }
         });
       `,
-      errors: [{
-        message: 'Inline style: { backgroundColor: \'#FFFFFF\' }',
-      }],
+      errors: [
+        {
+          message: "Inline style: { backgroundColor: '#FFFFFF' }",
+        },
+      ],
     },
     {
       code: `
@@ -161,9 +185,11 @@ const tests = {
           }
         });
       `,
-      errors: [{
-        message: 'Inline style: { backgroundColor: \'#FFFFFF\' }',
-      }],
+      errors: [
+        {
+          message: "Inline style: { backgroundColor: '#FFFFFF' }",
+        },
+      ],
     },
     {
       code: `
@@ -185,9 +211,12 @@ const tests = {
             }
         }
       `,
-      errors: [{
-        message: 'Inline style: { backgroundColor: \'someBoolean ? \\\'#fff\\\' : \\\'#000\\\'\' }', //eslint-disable-line
-      }],
+      errors: [
+        {
+          message:
+            "Inline style: { backgroundColor: \"someBoolean ? '#fff' : '#000'\" }",
+        },
+      ],
     },
   ],
 };
