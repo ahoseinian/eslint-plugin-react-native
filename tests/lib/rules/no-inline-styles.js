@@ -103,7 +103,7 @@ const tests = {
                 '});\n' +
                 '\n' +
                 'const styles = StyleSheet.create({\n' +
-                "  textStyle:{ backgroundColor: '#FFFFFF', opacity: 0.5 },\n" +
+                "  textStyle: { backgroundColor: '#FFFFFF', opacity: 0.5 },\n" +
                 '});',
             },
           ],
@@ -148,13 +148,35 @@ const tests = {
           render: function() {
             return <Text style={{marginLeft: -7, height: +12}}>
               Hello {this.props.name}
-             </Text>;
+              </Text>;
           }
+        });
+
+        const styles = StyleSheet.create({
+          container: { flex:1 }
         });
       `,
       errors: [
         {
           message: 'Inline style: { marginLeft: -7, height: 12 }',
+          suggestions: [
+            {
+              output: `
+        const Hello = React.createClass({
+          render: function() {
+            return <Text style={styles.textStyle}>
+              Hello {this.props.name}
+              </Text>;
+          }
+        });
+
+        const styles = StyleSheet.create({
+          container: { flex:1 },
+  textStyle: { marginLeft: -7, height: 12 }
+        });
+      `,
+            },
+          ],
         },
       ],
     },
